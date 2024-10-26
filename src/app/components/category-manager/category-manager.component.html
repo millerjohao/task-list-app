@@ -1,0 +1,29 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title>Gestor de categorías</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-input
+      placeholder="Nueva categoría"
+      [(ngModel)]="newCategoryName"
+      (keyup.enter)="addCategory()">
+    </ion-input>
+    <ion-button (click)="addCategory()">Agregar</ion-button>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let category of categories">
+      <ion-input
+        [(ngModel)]="category.name"
+        (ionBlur)="editCategory(category.id, category.name)">
+      </ion-input>
+      <ion-button color="danger" (click)="deleteCategory(category.id)">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

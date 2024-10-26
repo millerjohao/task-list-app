@@ -1,3 +1,6 @@
-<p>
-  custom-item-list works!
-</p>
+<ion-item (click)="onItemSelected()">
+  <ion-label>{{ listItem.name }}</ion-label>
+  <ion-reorder slot="end">
+    <ion-icon name="reorder-three-outline"></ion-icon>
+  </ion-reorder>
+</ion-item>

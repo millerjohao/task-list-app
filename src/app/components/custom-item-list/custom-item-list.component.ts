@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-custom-item-list',
@@ -7,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomItemListComponent  implements OnInit {
 
+  @Input() listItem: any;
+  @Output() redirectPage = new EventEmitter<number>();
+
   constructor() { }
 
   ngOnInit() {}
 
+  onItemSelected() {
+    this.redirectPage.emit(this.listItem.id);
+  }
 }

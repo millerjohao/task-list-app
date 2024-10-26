@@ -1,0 +1,24 @@
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input placeholder="Nueva tarea" [(ngModel)]="taskName" (keyup.enter)="onAddTask()"> </ion-input>
+      <ion-select
+        placeholder="Categoría"
+        [(ngModel)]="selectedCategoryId"
+        [interfaceOptions]="{ header: 'Selecciona una categoría' }"
+        [okText]="'Aceptar'"
+        [cancelText]="'Cancelar'">
+        <ion-select-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </ion-select-option>
+      </ion-select>
+
+      <ion-button fill="solid" slot="end" (click)="onAddTask()">
+        <ion-icon name="checkmark-outline" slot="icon-only" size="large"></ion-icon
+      ></ion-button>
+      <ion-button fill="solid" slot="end" (click)="openCategoryManager()">
+        <ion-icon name="pricetag" slot="icon-only" size="large"></ion-icon
+      ></ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

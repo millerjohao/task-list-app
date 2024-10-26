@@ -1,0 +1,20 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-title>{{ titleText }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-input [(ngModel)]="itemName" placeholder="Nombre"></ion-input>
+  </ion-item>
+
+  <div class="button-container" mode="ios">
+    <ion-button class="btn-primary-style" expand="block" size="small" shape="round" (click)="action()">{{
+      btnText
+    }}</ion-button>
+  </div>
+</ion-content>

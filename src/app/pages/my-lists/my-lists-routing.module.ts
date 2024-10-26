@@ -4,18 +4,17 @@ import { MyListsPage } from './my-lists.page';
 
 const routes: Routes = [
   {
-    path: 'my-lists',
+    path: '',
     component: MyListsPage,
   },
   {
-    path: '',
-    redirectTo: '/my-lists',
-    pathMatch: 'full'
-  }
+    path: 'detail-list/:id',
+    loadChildren: () => import('../detail-list/detail-list.module').then(m => m.DetailListPageModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class Tab1PageRoutingModule {}
+export class MyListsPageRoutingModule {}

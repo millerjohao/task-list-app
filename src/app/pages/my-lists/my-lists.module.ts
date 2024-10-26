@@ -5,7 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { MyListsPage } from './my-lists.page';
 import { ExploreContainerComponentModule } from '../../explore-container/explore-container.module';
 
-import { Tab1PageRoutingModule } from './my-lists-routing.module';
+import { MyListsPageRoutingModule } from './my-lists-routing.module';
+import { GenericComponentsModule } from 'src/app/components/generic-components.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { Tab1PageRoutingModule } from './my-lists-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule,
+    MyListsPageRoutingModule,
+    GenericComponentsModule,
   ],
   declarations: [MyListsPage],
   exports: [MyListsPage],

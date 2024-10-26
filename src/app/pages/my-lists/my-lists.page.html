@@ -1,16 +1,35 @@
-<ion-header [translucent]="true" mode="ios" class="ion-no-border">
-    <ion-toolbar>
-        <ion-title>
-            Mis listas
-        </ion-title>
-    </ion-toolbar>
-</ion-header>
+<app-header [title]="'To-Do App'" [hasReturn]="false"></app-header>
 
 <ion-content [fullscreen]="true">
-    <ion-list>
-        <ion-item *ngFor="let list of myLists "> <!-- | async -->
-            <ion-label>{{ list.id }}</ion-label>
-            <ion-label>{{ list.name }}</ion-label>
-        </ion-item>
-    </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" ion>
+    <ion-fab-button (click)="openCreateModal('create')">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label> {{ title }} </ion-label>
+      </ion-item-divider>
+      <ion-reorder-group (ionItemReorder)="reorderItems($event)" disabled="false">
+        <ion-item-sliding *ngFor="let list of myLists">
+          <app-custom-item-list [listItem]="list" (redirectPage)="goToDetail($event)"></app-custom-item-list>
+          <ion-item-options side="start">
+            <ion-item-option color="primary" (click)="editListName(list)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="deleteList(list)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-reorder-group>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="85%" [disabled]="false" position="bottom" (ionInfinite)="loadData()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="cargando"> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
