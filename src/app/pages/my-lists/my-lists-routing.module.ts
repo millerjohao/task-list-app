@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'detail-list/:id',
     loadChildren: () => import('../detail-list/detail-list.module').then(m => m.DetailListPageModule),
   },
+  {
+    path: 'special-page',
+    loadChildren: () => import('../special-page/special-page.module').then(m => m.SpecialPageModule),
+  },
 ];
 
 @NgModule({

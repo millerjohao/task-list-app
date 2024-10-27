@@ -1,5 +1,5 @@
 <app-header [title]="'To-Do App'" [hasReturn]="false"></app-header>
-
+<!-- Contenido principal, lista de listas -->
 <ion-content [fullscreen]="true">
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" ion>
     <ion-fab-button (click)="openCreateModal('create')">
@@ -34,6 +34,7 @@
   </ion-infinite-scroll>
 </ion-content>
 
-<ion-button *ngIf="isNewFeatureEnabled" expand="block" fill="clear" shape="round">
+<!-- Congiguración habilitada por el remote config -->
+<ion-button *ngIf="isNewFeatureEnabled" (click)="goToSpecialPage()" expand="block" fill="clear" shape="round">
   Acceso especial
 </ion-button>

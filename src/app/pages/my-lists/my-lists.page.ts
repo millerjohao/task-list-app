@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonInfiniteScroll, IonList, ModalController } from '@ionic/angular';
 import { IonInfiniteScrollCustomEvent } from '@ionic/core';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { RemoteConfigurationService } from 'src/app/services/remote-configuratio
   templateUrl: 'my-lists.page.html',
   styleUrls: ['my-lists.page.scss'],
 })
-export class MyListsPage implements OnInit {
+export class MyListsPage implements OnInit, AfterViewInit {
   @ViewChild(IonList) ionList!: IonList;
   @ViewChild(IonInfiniteScroll) ionInfiniteScroll!: IonInfiniteScroll;
   public modalController = inject(ModalController);
@@ -23,17 +23,32 @@ export class MyListsPage implements OnInit {
   public title = 'Mis Listas';
   public isNewFeatureEnabled: boolean = false;
 
-  constructor(private remoteConfigService: RemoteConfigurationService) {        
-    this.isNewFeatureEnabled =this.remoteConfigService.getFeatureFlag('new_feature_enabled');
+  /**
+   *
+   * @param remoteConfigService Servicio de configuración para la funcionalidad de feature flag con remote config
+   */
+  constructor(private remoteConfigService: RemoteConfigurationService) {}
+  ngAfterViewInit(): void {
+    setTimeout(() => {      
+      this.isNewFeatureEnabled = this.remoteConfigService.getFeatureFlag('new_feature_enabled');
+    }, 1000);
   }
   ngOnInit(): void {
     this.loadLists();
   }
 
+  /**
+   * Método para cargar las listas almacenadas en el localstorage
+   */
   loadLists() {
     this.myLists = this.logicCoreService.getLists();
   }
 
+  /**
+   *
+   * @param mode create/edit para cambiar el modo a creación o edición de una lista
+   * @param inputData objeto para envío de data
+   */
   async openCreateModal(mode: any, inputData?: any) {
     const modal = await this.modalController.create({
       component: ModalActionComponent,
@@ -67,10 +82,19 @@ export class MyListsPage implements OnInit {
     }, 1500);
   }
 
+  /**
+   * Método que edita una lista
+   * @param list objeto a editar
+   */
   editListName(list: any) {
     this.openCreateModal('edit', list);
     this.ionList.closeSlidingItems();
   }
+
+  /**
+   * Método que elimina una lista, realiza validación antes de eliminar con tareas
+   * @param list objeto a eliminar
+   */
   async deleteList(list: any) {
     const hasTasks = this.logicCoreService.hasTasks(list.id);
 
@@ -103,7 +127,15 @@ export class MyListsPage implements OnInit {
     }
   }
 
+  /**
+   * Método para navegar a la vista de detalle de una lista
+   * @param listId id de la lista
+   */
   goToDetail(listId: any) {
     this.router.navigate(['/my-lists/detail-list', listId]);
+  }
+
+  goToSpecialPage() {
+    this.router.navigate(['/my-lists/special-page']);
   }
 }

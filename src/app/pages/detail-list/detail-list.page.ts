@@ -18,7 +18,7 @@ export class DetailListPage implements OnInit {
   public selectedCategoryId: number | null = null;
   public categories: any[] = [];
   public titleList!: string;
-
+  
   constructor() {
     this.listId = Number(this.route.snapshot.paramMap.get('id'));
     this.titleList = this.logicCoreService.getListById(this.listId).name;        

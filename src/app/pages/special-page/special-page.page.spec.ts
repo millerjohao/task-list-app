@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DetailListPage } from './detail-list.page';
+import { SpecialPage } from './special-page.page';
 
-describe('DetailListPage', () => {
-  let component: DetailListPage;
-  let fixture: ComponentFixture<DetailListPage>;
+describe('SpecialPage', () => {
+  let component: SpecialPage;
+  let fixture: ComponentFixture<SpecialPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DetailListPage],
+      declarations: [SpecialPage],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DetailListPage);
+    fixture = TestBed.createComponent(SpecialPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
