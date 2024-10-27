@@ -10,6 +10,9 @@ import { Vibration } from '@awesome-cordova-plugins/vibration/ngx';
   templateUrl: 'detail-list.page.html',
   styleUrls: ['detail-list.page.scss'],
 })
+/**
+ * Página de detalle de las listas
+ */
 export class DetailListPage implements OnInit {
   @ViewChild(IonInfiniteScroll) ionInfiniteScroll!: IonInfiniteScroll;
   @ViewChild('taskContainer') taskContainer!: ElementRef;
@@ -34,11 +37,16 @@ export class DetailListPage implements OnInit {
     this.titleList = this.logicCoreService.getListById(this.listId).name;
   }
 
+  /**
+   * Método que realiza carga inicial de tareas y categorías
+   */
   ngOnInit(): void {
     this.loadTasks();
     this.loadCategories();
   }
-
+  /**
+   * Método que carga las tareas, filtra por categoría seleccionada y aplica paginación
+   */
   loadTasks() {
     this.tasks = this.logicCoreService.getTasks(this.listId);
     this.filteredTasks = this.selectedCategoryId
@@ -47,15 +55,27 @@ export class DetailListPage implements OnInit {
     this.paginatedTasks = this.filteredTasks.slice(0, this.pageSize);
   }
 
+  /**
+   * Método que carga las categorías
+   */
   loadCategories() {
     this.categories = this.logicCoreService.getCategories();
   }
 
+  /**
+   * Método que agrega una tarea a la lista
+   * @param event información de la tarea
+   */
   addTask(event: { name: string; categoryId: number }) {
     this.logicCoreService.addTask(this.listId, event.name, event.categoryId);
     this.loadTasks();
   }
 
+  /**
+   * Método que realiza el cambio de estado de una tarea a completado o no
+   * @param task tarea
+   * @param event evento disparado, true/false
+   */
   toggleTaskCompletion(task: any, event: any) {
     if (!event.target.checked) {
       this.audio.play();
@@ -65,6 +85,9 @@ export class DetailListPage implements OnInit {
     this.loadTasks();
   }
 
+  /**
+   * Método que filtra las tareas según la categoría seleccionada
+   */
   filterTasks() {
     this.ionInfiniteScroll.disabled = false;
     if (this.selectedCategoryId) {
@@ -76,23 +99,36 @@ export class DetailListPage implements OnInit {
     this.paginatedTasks = this.filteredTasks.slice(0, this.pageSize);
     this.loadTasks();
   }
-
+  /**
+   * Método que actualiza la páginación
+   */
   updatePaginatedTasks() {
     const start = this.page * this.pageSize;
     const end = start + this.pageSize;
     this.paginatedTasks = this.filteredTasks.slice(start, end);
   }
 
+  /**
+   * Método que elimina una tarea
+   * @param task objeto tarea a eliminar
+   */   
   deleteTask(task: any) {
     this.vibration.vibrate(200);
     this.logicCoreService.deleteTaskFromList(task.id);
     this.loadTasks();
   }
 
+  /**
+   * Método que realizar un update de la lista de categorías
+   */
   onCategoryUpdated() {
     this.loadCategories();
   }
 
+  /**
+   * Método que obtiene la categoría predominante de las tareas en la lista
+   * @returns 
+   */
   getPredominantCategory(): number | null {
     if (this.filteredTasks.length === 0) {
       return null;
@@ -117,6 +153,10 @@ export class DetailListPage implements OnInit {
     return Number(predominantCategoryId);
   }
 
+  /**
+   * Método que carga más tareas
+   * @param event evento del infinite scroll
+   */
   loadMoreData() {
     this.page++;
     const start = this.page * this.pageSize;
@@ -135,6 +175,10 @@ export class DetailListPage implements OnInit {
     }
   }
 
+  /**
+   * Método secundario que agrega una tarea a la lista, es alterno
+   * @param task 
+   */
   appendTask(task: ITask) {
     // Agregar la nueva tarea a la lista principal
     this.tasks.push(task);
@@ -153,6 +197,9 @@ export class DetailListPage implements OnInit {
     this.loadTasks();
   }
 
+  /**
+   * Método que desplaza el scroll hacia abajo
+   */
   scrollToBottom() {
     setTimeout(() => {
       if (this.taskContainer.nativeElement) {

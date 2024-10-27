@@ -8,6 +8,9 @@ import { CategoryManagerComponent } from '../category-manager/category-manager.c
   templateUrl: './add-task.component.html',
   styleUrls: ['./add-task.component.scss'],
 })
+/**
+ * Componente para agregar una nueva tarea
+ */
 export class AddTaskComponent implements OnInit {
   @Input() predominantCategoryId!: any;
   @Output() taskAdded = new EventEmitter<any>();
@@ -20,15 +23,24 @@ export class AddTaskComponent implements OnInit {
 
   constructor() {}
 
+  /**
+   * Pre-carga de categorías, y id categoría
+   */
   ngOnInit(): void {
     this.loadCategories();
     this.selectedCategoryId = this.predominantCategoryId;
   }
 
+  /**
+   * Método que realiza carga de categorías desde el localStorage
+   */
   loadCategories() {
     this.categories = this.logicCoreService.getCategories();
   }
 
+  /**
+   * Método que abre el modal de gestor de categorías, componente que crea, edita y borra categorías
+   */
   async openCategoryManager() {
     const modal = await this.modalController.create({
       component: CategoryManagerComponent,
@@ -44,13 +56,16 @@ export class AddTaskComponent implements OnInit {
     }
   }
 
+  /**
+ * Método que agrega una nueva tarea  
+ */
   onAddTask() {
     if (this.taskName.trim() && this.selectedCategoryId) {
       this.taskAdded.emit({
         name: this.taskName,
         categoryId: this.selectedCategoryId,
       });
-      this.taskName = '';      
+      this.taskName = '';
     }
   }
 }

@@ -6,6 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  /**
+   * Variables de entrada
+   */   
   @Input() title: string = '';
   @Input() hasReturn: boolean = false;
 }

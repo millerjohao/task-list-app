@@ -11,6 +11,9 @@ import { Vibration } from '@awesome-cordova-plugins/vibration/ngx';
   templateUrl: 'my-lists.page.html',
   styleUrls: ['my-lists.page.scss'],
 })
+/**
+ * Página principal, página listas
+ */
 export class MyListsPage implements OnInit, AfterViewInit {
   @ViewChild(IonList) ionList!: IonList;
   public modalController = inject(ModalController);

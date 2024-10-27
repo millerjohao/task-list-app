@@ -1,19 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-custom-item-list',
   templateUrl: './custom-item-list.component.html',
   styleUrls: ['./custom-item-list.component.scss'],
 })
-export class CustomItemListComponent  implements OnInit {
-
+export class CustomItemListComponent {
   @Input() listItem: any;
   @Output() redirectPage = new EventEmitter<number>();
 
-  constructor() { }
-
-  ngOnInit() {}
-
+  constructor() {}  
+  /**
+   * Método que emite el valor del id de la lista seleccionada al componente padre
+   */   
   onItemSelected() {
     this.redirectPage.emit(this.listItem.id);
   }

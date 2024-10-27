@@ -10,6 +10,12 @@ export class RemoteConfigurationService {
     this.initializeRemoteConfig();
   }
 
+  /**
+   * Método para inicializar el remote config
+   * y obtener los valores de las variables de configuracion
+   * @returns {Promise<void>} Promesa que se resuelve cuando se ha inicializado el remote config
+   * @memberof RemoteConfigurationService
+   */
   public async initializeRemoteConfig() {
     try {
       await fetchAndActivate(remoteConfig);
@@ -21,6 +27,12 @@ export class RemoteConfigurationService {
       console.error('Error al inicializar Remote Config:', error);
     }
   }
+
+  /**
+   * Método para obtener la variable de remote flag
+   * @param flagName 
+   * @returns 
+   */
 
   getFeatureFlag(flagName: string): boolean {
     return getValue(remoteConfig, flagName).asBoolean();
