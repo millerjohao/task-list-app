@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonInfiniteScroll, IonList, ModalController } from '@ionic/angular';
-import { IonInfiniteScrollCustomEvent } from '@ionic/core';
-import { Observable } from 'rxjs';
+import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { ModalActionComponent } from 'src/app/components/create-modal/modal-action.component';
 import { LogicCoreService } from '../../services/logic-core.service';
 import { Router } from '@angular/router';
@@ -14,7 +12,6 @@ import { RemoteConfigurationService } from 'src/app/services/remote-configuratio
 })
 export class MyListsPage implements OnInit, AfterViewInit {
   @ViewChild(IonList) ionList!: IonList;
-  @ViewChild(IonInfiniteScroll) ionInfiniteScroll!: IonInfiniteScroll;
   public modalController = inject(ModalController);
   public logicCoreService = inject(LogicCoreService);
   public alertController = inject(AlertController);
