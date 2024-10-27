@@ -1,7 +1,10 @@
 {
   "name": "task-list-demo",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {
+      "enabled": false
+    },
+    "cordova": {}
   },
   "type": "angular"
 }
