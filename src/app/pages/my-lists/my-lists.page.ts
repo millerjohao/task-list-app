@@ -4,6 +4,7 @@ import { ModalActionComponent } from 'src/app/components/create-modal/modal-acti
 import { LogicCoreService } from '../../services/logic-core.service';
 import { Router } from '@angular/router';
 import { RemoteConfigurationService } from 'src/app/services/remote-configuration.service';
+import { VibrationOriginal } from '@awesome-cordova-plugins/vibration';
 
 @Component({
   selector: 'app-my-lists',
@@ -19,6 +20,7 @@ export class MyListsPage implements OnInit, AfterViewInit {
   public myLists: any[] = [];
   public title = 'Mis Listas';
   public isNewFeatureEnabled: boolean = false;
+  public vibration = inject(VibrationOriginal);
 
   /**
    *
@@ -88,7 +90,7 @@ export class MyListsPage implements OnInit, AfterViewInit {
    */
   async deleteList(list: any) {
     const hasTasks = this.logicCoreService.hasTasks(list.id);
-
+    this.vibration.vibrate(200);
     if (hasTasks) {
       const alert = await this.alertController.create({
         header: 'Confirmar acción',

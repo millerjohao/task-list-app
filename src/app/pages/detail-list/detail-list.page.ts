@@ -1,5 +1,6 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { VibrationOriginal } from '@awesome-cordova-plugins/vibration';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { ITask } from 'src/app/core/interfaces/task-structure.interface';
 import { LogicCoreService } from 'src/app/services/logic-core.service';
@@ -25,6 +26,7 @@ export class DetailListPage implements OnInit {
   public page: number = 0;
   public pageSize: number = 20;
   public audio: HTMLAudioElement;
+  public vibration = inject(VibrationOriginal);
 
   constructor() {
     this.audio = new Audio('assets/sounds/tap_notification.mp3');
@@ -54,11 +56,12 @@ export class DetailListPage implements OnInit {
     this.loadTasks();
   }
 
-  toggleTaskCompletion(taskId: string, event: any) {
+  toggleTaskCompletion(task: any, event: any) {
     if (!event.target.checked) {
       this.audio.play();
+      this.vibration.vibrate(200);
     }
-    this.logicCoreService.toggleTaskCompletion(this.listId, taskId);
+    this.logicCoreService.toggleTaskCompletion(this.listId, task);
     this.loadTasks();
   }
 
@@ -80,13 +83,38 @@ export class DetailListPage implements OnInit {
     this.paginatedTasks = this.filteredTasks.slice(start, end);
   }
 
-  deleteTask(taskId: any) {
-    this.logicCoreService.deleteTaskFromList(this.listId, taskId);
+  deleteTask(task: any) {
+    this.vibration.vibrate(200);
+    this.logicCoreService.deleteTaskFromList(task.id);
     this.loadTasks();
   }
 
   onCategoryUpdated() {
     this.loadCategories();
+  }
+
+  getPredominantCategory(): number | null {
+    if (this.filteredTasks.length === 0) {
+      return null;
+    }
+
+    const categoryCount: { [key: number]: number } = {};
+
+    // Contar las ocurrencias de cada categoría
+    this.filteredTasks.forEach(task => {
+      if (categoryCount[task.categoryId]) {
+        categoryCount[task.categoryId]++;
+      } else {
+        categoryCount[task.categoryId] = 1;
+      }
+    });
+
+    // Encontrar la categoría con la mayor cantidad de ocurrencias
+    const predominantCategoryId = Object.keys(categoryCount).reduce((a: any, b: any) => {
+      return categoryCount[a] > categoryCount[b] ? a : b;
+    });
+
+    return Number(predominantCategoryId);
   }
 
   loadMoreData() {
@@ -122,6 +150,7 @@ export class DetailListPage implements OnInit {
       // Esperar un momento para asegurar que la tarea se haya añadido al DOM
       setTimeout(() => this.scrollToBottom(), 100);
     }
+    this.loadTasks();
   }
 
   scrollToBottom() {

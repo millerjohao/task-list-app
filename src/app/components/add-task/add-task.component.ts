@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LogicCoreService } from 'src/app/services/logic-core.service';
 import { CategoryManagerComponent } from '../category-manager/category-manager.component';
@@ -9,6 +9,7 @@ import { CategoryManagerComponent } from '../category-manager/category-manager.c
   styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent implements OnInit {
+  @Input() predominantCategoryId!: any;
   @Output() taskAdded = new EventEmitter<any>();
   @Output() categoryUpdated = new EventEmitter<void>();
   public taskName: string = '';
@@ -21,6 +22,7 @@ export class AddTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
+    this.selectedCategoryId = this.predominantCategoryId;
   }
 
   loadCategories() {
@@ -48,8 +50,7 @@ export class AddTaskComponent implements OnInit {
         name: this.taskName,
         categoryId: this.selectedCategoryId,
       });
-      this.taskName = '';
-      this.selectedCategoryId = null;
+      this.taskName = '';      
     }
   }
 }

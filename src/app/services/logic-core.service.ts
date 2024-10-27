@@ -73,9 +73,10 @@ export class LogicCoreService {
     }
   }
 
-  deleteTaskFromList(listId: number, taskId: string): void {
+  deleteTaskFromList(taskObject: string): void {
     const currentTasks = this.getAllTasks();
-    const updatedTasks = currentTasks.filter(task => task.id !== taskId);
+    const updatedTasks = currentTasks.filter(task => task.id !== taskObject);
+
     localStorage.setItem(this.tasksStorageKey, JSON.stringify(updatedTasks));
   }
 
@@ -130,9 +131,10 @@ export class LogicCoreService {
     return 'task-' + Math.random().toString(36).substr(2, 9);
   }
 
-  toggleTaskCompletion(listId: number, taskId: string): void {
+  toggleTaskCompletion(listId: number, taskObject: any): void {
     const tasks = JSON.parse(localStorage.getItem(this.tasksStorageKey) || '[]');
-    const task = tasks.find((t: any) => t.id === taskId && t.listId === listId);
+    const task = tasks.find((t: any) => t.id === taskObject.id && t.listId === listId);
+
     if (task) {
       task.completed = !task.completed;
       localStorage.setItem(this.tasksStorageKey, JSON.stringify(tasks));
