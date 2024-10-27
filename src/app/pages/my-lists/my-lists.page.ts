@@ -29,8 +29,8 @@ export class MyListsPage implements OnInit, AfterViewInit {
    */
   constructor(private remoteConfigService: RemoteConfigurationService) {}
   ngAfterViewInit(): void {
-    setTimeout(() => {      
-      this.isNewFeatureEnabled = this.remoteConfigService.getFeatureFlag('new_feature_enabled');
+    setTimeout(() => {
+      this.isNewFeatureEnabled = this.remoteConfigService.getFeatureFlag('new_feature_flag');
     }, 1000);
   }
   ngOnInit(): void {
@@ -64,22 +64,16 @@ export class MyListsPage implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Método que reorganiza los elementos de la lista
+   * @param event acción para reorganizar
+   */
+
   reorderItems(event: CustomEvent) {
     const movedItem = this.myLists.splice(event.detail.from, 1)[0];
     this.myLists.splice(event.detail.to, 0, movedItem);
     this.logicCoreService.saveLists(this.myLists);
     event.detail.complete();
-  }
-
-  loadData() {
-    if (this.myLists.length > 50) {
-      this.ionInfiniteScroll.disabled = true;
-      return;
-    }
-    setTimeout(() => {
-      this.myLists.push(...this.myLists);
-      this.ionInfiniteScroll.complete();
-    }, 1500);
   }
 
   /**
@@ -135,6 +129,9 @@ export class MyListsPage implements OnInit, AfterViewInit {
     this.router.navigate(['/my-lists/detail-list', listId]);
   }
 
+  /**
+   * Acceso hasta la ruta especial
+   */
   goToSpecialPage() {
     this.router.navigate(['/my-lists/special-page']);
   }

@@ -15,7 +15,7 @@ export class RemoteConfigurationService {
       await fetchAndActivate(remoteConfig);
       console.log('Remote Config activado y sincronizado');
 
-      const featureEnabled = getValue(remoteConfig, 'new_feature_enabled').asBoolean();
+      const featureEnabled = getValue(remoteConfig, 'new_feature_flag').asBoolean();
       console.log('Funcionalidad:', featureEnabled);
     } catch (error) {
       console.error('Error al inicializar Remote Config:', error);
