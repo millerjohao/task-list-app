@@ -33,3 +33,7 @@
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="cargando"> </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+
+<ion-button *ngIf="isNewFeatureEnabled" expand="block" fill="clear" shape="round">
+  Acceso especial
+</ion-button>

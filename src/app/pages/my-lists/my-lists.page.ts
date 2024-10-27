@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ModalActionComponent } from 'src/app/components/create-modal/modal-action.component';
 import { LogicCoreService } from '../../services/logic-core.service';
 import { Router } from '@angular/router';
+import { RemoteConfigurationService } from 'src/app/services/remote-configuration.service';
 
 @Component({
   selector: 'app-my-lists',
@@ -20,8 +21,11 @@ export class MyListsPage implements OnInit {
   public router = inject(Router);
   public myLists: any[] = [];
   public title = 'Mis Listas';
+  public isNewFeatureEnabled: boolean = false;
 
-  constructor() {}
+  constructor(private remoteConfigService: RemoteConfigurationService) {        
+    this.isNewFeatureEnabled =this.remoteConfigService.getFeatureFlag('new_feature_enabled');
+  }
   ngOnInit(): void {
     this.loadLists();
   }
@@ -99,7 +103,7 @@ export class MyListsPage implements OnInit {
     }
   }
 
-  goToDetail(listId: any) {    
+  goToDetail(listId: any) {
     this.router.navigate(['/my-lists/detail-list', listId]);
   }
 }
