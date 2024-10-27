@@ -9,13 +9,13 @@ import { CategoryManagerComponent } from '../category-manager/category-manager.c
   styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent implements OnInit {
+  @Output() taskAdded = new EventEmitter<any>();
+  @Output() categoryUpdated = new EventEmitter<void>();
   public taskName: string = '';
   public selectedCategoryId: number | null = null;
   public categories: any[] = [];
   public logicCoreService = inject(LogicCoreService);
   public modalController = inject(ModalController);
-
-  @Output() taskAdded = new EventEmitter<string>();
 
   constructor() {}
 
@@ -38,12 +38,16 @@ export class AddTaskComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
     if (role === 'updated') {
       this.loadCategories();
+      this.categoryUpdated.emit();
     }
   }
 
   onAddTask() {
     if (this.taskName.trim() && this.selectedCategoryId) {
-      this.taskAdded.emit(this.taskName);
+      this.taskAdded.emit({
+        name: this.taskName,
+        categoryId: this.selectedCategoryId,
+      });
       this.taskName = '';
       this.selectedCategoryId = null;
     }

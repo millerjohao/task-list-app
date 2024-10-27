@@ -84,6 +84,10 @@ ion-icon {
   text-align: center;
 }
 
+.ion-valid {
+  --highlight-color: var(--ion-color-primary);
+}
+
 @media (prefers-color-scheme: dark) {
   ion-item-divider {
     background-color: #292929;

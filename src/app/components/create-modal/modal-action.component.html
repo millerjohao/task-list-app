@@ -9,7 +9,7 @@
 
 <ion-content class="ion-padding">
   <ion-item>
-    <ion-input [(ngModel)]="itemName" placeholder="Nombre"></ion-input>
+    <ion-input #inputField [(ngModel)]="itemName" placeholder="Nombre" (keyup.enter)="action()"></ion-input>
   </ion-item>
 
   <div class="button-container" mode="ios">

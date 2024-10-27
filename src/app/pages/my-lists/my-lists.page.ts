@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, IonList, ModalController } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, IonList, ModalController } from '@ionic/angular';
 import { IonInfiniteScrollCustomEvent } from '@ionic/core';
 import { Observable } from 'rxjs';
 import { ModalActionComponent } from 'src/app/components/create-modal/modal-action.component';
@@ -16,13 +16,12 @@ export class MyListsPage implements OnInit {
   @ViewChild(IonInfiniteScroll) ionInfiniteScroll!: IonInfiniteScroll;
   public modalController = inject(ModalController);
   public logicCoreService = inject(LogicCoreService);
+  public alertController = inject(AlertController);
   public router = inject(Router);
   public myLists: any[] = [];
   public title = 'Mis Listas';
 
-  constructor() {
-    /* this.myLists = aquiServiceData */
-  }
+  constructor() {}
   ngOnInit(): void {
     this.loadLists();
   }
@@ -68,14 +67,39 @@ export class MyListsPage implements OnInit {
     this.openCreateModal('edit', list);
     this.ionList.closeSlidingItems();
   }
-  deleteList(list: any) {
-    this.logicCoreService.deleteList(list.id);
-    this.ionList.closeSlidingItems();
-    this.loadLists();
+  async deleteList(list: any) {
+    const hasTasks = this.logicCoreService.hasTasks(list.id);
+
+    if (hasTasks) {
+      const alert = await this.alertController.create({
+        header: 'Confirmar acción',
+        message: 'Esta lista tiene tareas. ¿Quieres eliminarla junto con todas las tareas asociadas?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {},
+          },
+          {
+            text: 'Eliminar',
+            handler: () => {
+              this.logicCoreService.deleteListWithTasks(list.id);
+              this.loadLists();
+            },
+          },
+        ],
+      });
+
+      await alert.present();
+    } else {
+      this.logicCoreService.deleteList(list.id);
+      this.ionList.closeSlidingItems();
+      this.loadLists();
+    }
   }
 
-  goToDetail(listId: any) {
-    console.log(listId);    
+  goToDetail(listId: any) {    
     this.router.navigate(['/my-lists/detail-list', listId]);
   }
 }

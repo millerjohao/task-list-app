@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ITask } from '../core/interfaces/task-structure.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -6,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class LogicCoreService {
   private storageKey = 'myLists';
   private categoryKey = 'categories';
+  private tasksStorageKey = 'myTasks';
 
   constructor() {}
 
@@ -13,10 +15,20 @@ export class LogicCoreService {
     return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
   }
 
+  getListById(listId: number): any {
+    const lists = this.getLists();
+    return lists.find((list: any) => list.id === listId);
+  }
+
   addList(name: string): void {
     const currentList = this.getLists();
-    currentList.push({ id: currentList.length + 1, name });
+    const idGenerated = Date.now() + Math.floor(Math.random() * 1000);
+    currentList.push({ id: idGenerated, name });
     localStorage.setItem(this.storageKey, JSON.stringify(currentList));
+  }
+  hasTasks(listId: number): boolean {
+    const tasks = JSON.parse(localStorage.getItem(this.tasksStorageKey) || '[]');
+    return tasks.some((task: any) => task.listId === listId);
   }
 
   deleteList(id: string): void {
@@ -27,6 +39,15 @@ export class LogicCoreService {
       currentList.splice(index, 1);
       localStorage.setItem(this.storageKey, JSON.stringify(currentList));
     }
+  }
+  deleteListWithTasks(listId: number): void {
+    const lists = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+    const updatedLists = lists.filter((list: any) => list.id !== listId);
+    localStorage.setItem(this.storageKey, JSON.stringify(updatedLists));
+
+    const tasks = JSON.parse(localStorage.getItem(this.tasksStorageKey) || '[]');
+    const updatedTasks = tasks.filter((task: any) => task.listId !== listId);
+    localStorage.setItem(this.tasksStorageKey, JSON.stringify(updatedTasks));
   }
 
   editList(id: string, newName: string): void {
@@ -43,7 +64,6 @@ export class LogicCoreService {
     localStorage.setItem(this.storageKey, JSON.stringify(lists));
   }
 
-  // Gestionar Tareas en una Lista
   addTaskToList(listId: number, taskName: string, categoryId?: number): void {
     const currentLists = this.getLists();
     const list = currentLists.find(l => l.id === listId);
@@ -53,13 +73,10 @@ export class LogicCoreService {
     }
   }
 
-  deleteTaskFromList(listId: number, taskId: number): void {
-    const currentLists = this.getLists();
-    const list = currentLists.find(l => l.id === listId);
-    if (list) {
-      list.tasks = list.tasks.filter((task: any) => task.id !== taskId);
-      this.saveLists(currentLists);
-    }
+  deleteTaskFromList(listId: number, taskId: string): void {
+    const currentTasks = this.getAllTasks();
+    const updatedTasks = currentTasks.filter(task => task.id !== taskId);
+    localStorage.setItem(this.tasksStorageKey, JSON.stringify(updatedTasks));
   }
 
   getCategories(): any[] {
@@ -85,5 +102,40 @@ export class LogicCoreService {
     const categories = this.getCategories();
     const updatedCategories = categories.filter(cat => cat.id !== id);
     localStorage.setItem(this.categoryKey, JSON.stringify(updatedCategories));
+  }
+
+  getTasks(listId: number): ITask[] {
+    const tasks = JSON.parse(localStorage.getItem(this.tasksStorageKey) || '[]');
+    return tasks.filter((task: any) => task.listId === listId);
+  }
+
+  getAllTasks(): ITask[] {
+    return JSON.parse(localStorage.getItem(this.tasksStorageKey) || '[]');
+  }
+
+  addTask(listId: number, taskName: string, categoryId: number): void {
+    const tasks = JSON.parse(localStorage.getItem(this.tasksStorageKey) || '[]');
+    const newTask: ITask = {
+      id: this.generateIdTask(),
+      name: taskName,
+      completed: false,
+      categoryId: categoryId,
+      listId: listId,
+    };
+    tasks.push(newTask);
+    localStorage.setItem(this.tasksStorageKey, JSON.stringify(tasks));
+  }
+
+  generateIdTask(): string {
+    return 'task-' + Math.random().toString(36).substr(2, 9);
+  }
+
+  toggleTaskCompletion(listId: number, taskId: string): void {
+    const tasks = JSON.parse(localStorage.getItem(this.tasksStorageKey) || '[]');
+    const task = tasks.find((t: any) => t.id === taskId && t.listId === listId);
+    if (task) {
+      task.completed = !task.completed;
+      localStorage.setItem(this.tasksStorageKey, JSON.stringify(tasks));
+    }
   }
 }
