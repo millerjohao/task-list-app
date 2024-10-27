@@ -1,9 +1,9 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { VibrationOriginal } from '@awesome-cordova-plugins/vibration';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { ITask } from 'src/app/core/interfaces/task-structure.interface';
 import { LogicCoreService } from 'src/app/services/logic-core.service';
+import { Vibration } from '@awesome-cordova-plugins/vibration/ngx';
 
 @Component({
   selector: 'app-detail-list',
@@ -26,7 +26,7 @@ export class DetailListPage implements OnInit {
   public page: number = 0;
   public pageSize: number = 20;
   public audio: HTMLAudioElement;
-  public vibration = inject(VibrationOriginal);
+  public vibration = inject(Vibration);
 
   constructor() {
     this.audio = new Audio('assets/sounds/tap_notification.mp3');
