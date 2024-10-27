@@ -51,7 +51,14 @@ ionic cordova platform add android
 ionic cordova platform add ios
 ```
 
-Luego realizar el build:
+**Previo a generar el build de la aplicación, sin importar la plataforma**
+
+Instalar
+```bash
+npm install @ionic/cordova-builders --save-dev
+```
+
+Posterior a ello realizar el build:
 
 **Android**
 ```bash
@@ -73,7 +80,7 @@ sudo gem install cocoapods
 
 ## Release
 
-Para generar entregable
+Para generar los entregables, realizar la ejecución de estos comandos
 
 **Android**
 ```bash
@@ -85,3 +92,4 @@ ionic cordova build android --release
 ionic cordova build ios
 open platforms/ios/*.xcworkspace
 ```
+
