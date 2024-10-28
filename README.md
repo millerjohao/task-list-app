@@ -57,13 +57,6 @@ Instalar
 ```bash
 npm install @ionic/cordova-builders --save-dev
 ```
-```bash
-npm install -g ios-sim
-```
-```bash
-sudo npm install -g ios-deploy --unsafe-perm=true
-```
-
 
 Posterior a ello realizar el build:
 
@@ -71,6 +64,14 @@ Posterior a ello realizar el build:
 ```bash
 ionic cordova prepare android
 ionic cordova build android
+```
+
+**Estas instalaciones previas a generar el IPA**
+```bash
+npm install -g ios-sim
+```
+```bash
+sudo npm install -g ios-deploy --unsafe-perm=true
 ```
 **iOS**
 ```bash
