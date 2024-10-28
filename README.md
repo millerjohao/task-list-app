@@ -57,6 +57,13 @@ Instalar
 ```bash
 npm install @ionic/cordova-builders --save-dev
 ```
+```bash
+npm install -g ios-sim
+```
+```bash
+sudo npm install -g ios-deploy --unsafe-perm=true
+```
+
 
 Posterior a ello realizar el build:
 
