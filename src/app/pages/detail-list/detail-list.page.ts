@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { ITask } from 'src/app/core/interfaces/task-structure.interface';
 import { LogicCoreService } from 'src/app/services/logic-core.service';
-import { Vibration } from '@awesome-cordova-plugins/vibration/ngx';
 
 @Component({
   selector: 'app-detail-list',
@@ -28,8 +27,7 @@ export class DetailListPage implements OnInit {
   public paginatedTasks: ITask[] = [];
   public page: number = 0;
   public pageSize: number = 20;
-  public audio: HTMLAudioElement;
-  public vibration = inject(Vibration);
+  public audio: HTMLAudioElement;  
 
   constructor() {
     this.audio = new Audio('assets/sounds/tap_notification.mp3');
@@ -78,8 +76,7 @@ export class DetailListPage implements OnInit {
    */
   toggleTaskCompletion(task: any, event: any) {
     if (!event.target.checked) {
-      this.audio.play();
-      this.vibration.vibrate(200);
+      this.audio.play();      
     }
     this.logicCoreService.toggleTaskCompletion(this.listId, task);
     this.loadTasks();
@@ -112,8 +109,7 @@ export class DetailListPage implements OnInit {
    * Método que elimina una tarea
    * @param task objeto tarea a eliminar
    */   
-  deleteTask(task: any) {
-    this.vibration.vibrate(200);
+  deleteTask(task: any) {    
     this.logicCoreService.deleteTaskFromList(task.id);
     this.loadTasks();
   }
