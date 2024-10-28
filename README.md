@@ -100,3 +100,5 @@ ionic cordova build ios
 open platforms/ios/*.xcworkspace
 ```
 
+Acceder al proyecto, asignar una cuenta de desarrollador, ir al menú product -> archive, opción Distribute App
+
