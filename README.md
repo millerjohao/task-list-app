@@ -32,7 +32,7 @@ Para desplegar este proyecto en local previamente tener instalado:
     2. Tener Angular CLI instalado: npm install -g @angular/cli
     3. Tener Cordova instalado: npm install -g cordova
 
-Ubicarse en la carpeta del proyecto y:
+Ubicarse en la carpeta del proyecto y ejecutar:
 ```bash
   npm install --force
   ionic serve
@@ -65,15 +65,14 @@ Posterior a ello realizar el build:
 ionic cordova prepare android
 ionic cordova build android
 ```
-
-**Estas instalaciones previas a generar el IPA**
+**iOS**
+**Instalaciones previas a generar el IPA**
 ```bash
 npm install -g ios-sim
 ```
 ```bash
 sudo npm install -g ios-deploy --unsafe-perm=true
 ```
-**iOS**
 ```bash
 ionic cordova prepare ios
 ionic cordova build ios
